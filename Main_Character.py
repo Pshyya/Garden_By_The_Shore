@@ -62,7 +62,9 @@ def _load_picture_assets(pictures_directory):
 		if image is None:
 			continue
 		name = path.stem.lower()
-		if name in {"mc", "personnage", "character", "base"}:
+		if name in {"mc", "personnage", "character", "base"} or (
+			path.parent == pictures_directory and "lily" in name
+		):
 			base_image = image
 			continue
 		for category, aliases in CATEGORY_ALIASES.items():
@@ -196,3 +198,60 @@ def show_custom(screen):
 			_choice_button(screen, back_button, "Retour", False, mouse_position)
 			pygame.display.flip()
 			clock.tick(60)
+
+
+def show_story_selection(screen):
+	"""Display Lily Himo and return the selected story index."""
+	clock = pygame.time.Clock()
+	pictures_directory = Path(__file__).resolve().parent / "Pictures"
+	base_image, _ = _load_picture_assets(pictures_directory)
+	story_colors = [
+		(174, 67, 67),
+		(67, 112, 174),
+		(74, 145, 93),
+		(205, 169, 54),
+		(132, 83, 165),
+	]
+	story_names = ["Histoire 1", "Histoire 2", "Histoire 3", "Histoire 4", "Histoire 5"]
+
+	while True:
+		width, height = screen.get_size()
+		button_width = 125
+		button_height = 155
+		button_gap = 20
+		row_width = button_width * len(story_names) + button_gap * (len(story_names) - 1)
+		row_left = (width - row_width) // 2
+		story_rectangles = [
+			pygame.Rect(row_left + index * (button_width + button_gap), 445, button_width, button_height)
+			for index in range(len(story_names))
+		]
+		mouse_position = pygame.mouse.get_pos()
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				return False
+			if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+				return None
+			if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+				for index, rectangle in enumerate(story_rectangles):
+					if rectangle.collidepoint(event.pos):
+						return index
+
+		screen.fill(BACKGROUND)
+		pygame.draw.rect(screen, PANEL, (35, 25, width - 70, height - 50), border_radius=18)
+		_text(screen, "LILY HIMO", _font(42, bold=True), INK, (width // 2, 55), center=True)
+		_text(screen, "Choisis quelle histoire jouer", _font(22), MUTED, (width // 2, 100), center=True)
+		if base_image is not None:
+			preview = _scale_to_box(base_image, (250, 315))
+			screen.blit(preview, preview.get_rect(center=(width // 2, 265)))
+		else:
+			_draw_mc_fallback(screen, (width // 2, 190), {"skin": 0, "hair": 0, "eyes": 0, "mouth": 0})
+
+		for index, rectangle in enumerate(story_rectangles):
+			hovered = rectangle.collidepoint(mouse_position)
+			color = tuple(min(255, channel + 25) for channel in story_colors[index]) if hovered else story_colors[index]
+			pygame.draw.rect(screen, color, rectangle, border_radius=8)
+			_text(screen, story_names[index], _font(17, bold=True), (255, 252, 242), rectangle.center, center=True)
+			_text(screen, "Lily", _font(15), (255, 252, 242), (rectangle.centerx, rectangle.bottom - 25), center=True)
+
+		pygame.display.flip()
+		clock.tick(60)
