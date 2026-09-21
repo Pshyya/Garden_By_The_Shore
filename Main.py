@@ -27,7 +27,7 @@ def run_game(screen, story_index):
 		title_font = pygame.font.SysFont("georgia", 44, bold=True)
 		body_font = pygame.font.SysFont("georgia", 22)
 		title = title_font.render(story_names[story_index], True, (255, 252, 242))
-		body = body_font.render("L'histoire de Lily Himo commence ici.", True, (255, 252, 242))
+		body = body_font.render("Once upon a time...", True, (255, 252, 242))
 		screen.blit(title, title.get_rect(center=(WINDOW_SIZE[0] // 2, 290)))
 		screen.blit(body, body.get_rect(center=(WINDOW_SIZE[0] // 2, 360)))
 		pygame.display.flip()
