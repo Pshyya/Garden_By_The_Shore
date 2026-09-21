@@ -32,3 +32,6 @@ around to face the voice.
 with her almost white eyes behind sunglasses. Both wearing the uniform of the Himo manor, a white gown with golden embroidery
 and a long necklace. “Quick ! Let’s head toward the manor ! The boys are going to win the race !” She says, her competitive
 impulse thriving as she began to run. The other girl followed with her broom.
+
+
+https://docs.google.com/document/d/1ICDy5lnkwHYo4dPMU7VEY5gEIAk1YpUVT3mnM1X3-c4/edit?usp=sharing
