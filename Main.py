@@ -3,6 +3,7 @@ from pathlib import Path
 import pygame
 
 from Interface import WINDOW_SIZE, find_cinematic, play_cinematic, show_menu
+from Main_Character import _slide_to_custom, show_custom
 
 
 def run_game(screen):
@@ -33,11 +34,21 @@ def main():
 	pygame.display.set_caption("Garden By The Shore")
 
 	try:
-		if show_menu(screen):
+		while True:
+			menu_result = show_menu(screen)
+			if menu_result == "custom":
+				_slide_to_custom(screen)
+				if not show_custom(screen):
+					break
+				continue
+			if menu_result != "start":
+				break
+
 			project_directory = Path(__file__).resolve().parent
 			cinematic = find_cinematic(project_directory / "Videos")
 			if play_cinematic(screen, cinematic):
 				run_game(screen)
+			break
 	finally:
 		pygame.quit()
 

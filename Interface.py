@@ -30,10 +30,11 @@ def _button(surface, rectangle, label, mouse_position):
 
 
 def show_menu(screen):
-	"""Display the start menu and return True to start or False to quit."""
+	"""Display the start menu and return start, custom, or quit."""
 	clock = pygame.time.Clock()
-	start_button = pygame.Rect(440, 405, 400, 66)
-	quit_button = pygame.Rect(440, 495, 400, 58)
+	start_button = pygame.Rect(440, 375, 400, 62)
+	custom_button = pygame.Rect(440, 455, 400, 62)
+	quit_button = pygame.Rect(440, 535, 400, 50)
 
 	while True:
 		mouse_position = pygame.mouse.get_pos()
@@ -44,7 +45,9 @@ def show_menu(screen):
 				return False
 			if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
 				if start_button.collidepoint(event.pos):
-					return True
+					return "start"
+				if custom_button.collidepoint(event.pos):
+					return "custom"
 				if quit_button.collidepoint(event.pos):
 					return False
 
@@ -53,8 +56,9 @@ def show_menu(screen):
 		pygame.draw.rect(screen, PANEL, (120, 75, width - 240, height - 150), border_radius=18)
 		pygame.draw.line(screen, ACCENT, (280, 215), (1000, 215), 2)
 		_draw_centered_text(screen, "GARDEN BY THE SHORE", _font(58, bold=True), INK, (width // 2, 150))
-		_draw_centered_text(screen, "Une histoire commence au bord de l'eau", _font(24), MUTED, (width // 2, 270))
+		_draw_centered_text(screen, "Une histoire commence au bord de l'eau", _font(24), MUTED, (width // 2, 260))
 		_button(screen, start_button, "Entrer dans le jeu", mouse_position)
+		_button(screen, custom_button, "Custom", mouse_position)
 		_button(screen, quit_button, "Quitter", mouse_position)
 		pygame.display.flip()
 		clock.tick(60)
