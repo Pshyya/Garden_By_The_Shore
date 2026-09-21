@@ -14,7 +14,7 @@ def run_game(screen, story_index):
 		(205, 169, 54),
 		(132, 83, 165),
 	]
-	story_names = ["Histoire 1", "Histoire 2", "Histoire 3", "Histoire 4", "Histoire 5"]
+	story_names = ["Name1", "Name2", "Name3", "Name4", "Name5"]
 
 	while running:
 		for event in pygame.event.get():

@@ -8,7 +8,6 @@ MUTED = (104, 100, 83)
 PANEL = (246, 238, 220)
 BACKGROUND = (231, 218, 193)
 ACCENT = (113, 137, 104)
-ACCENT_HOVER = (93, 119, 85)
 SKIN_TONES = [(245, 205, 169), (222, 169, 125), (177, 117, 78)]
 HAIR_COLORS = [(45, 31, 25), (116, 70, 39), (202, 164, 63)]
 EYE_COLORS = [(57, 107, 112), (72, 95, 62), (68, 54, 43)]
@@ -99,7 +98,7 @@ def show_story_selection(screen):
 		(205, 169, 54),
 		(132, 83, 165),
 	]
-	story_names = ["Histoire 1", "Histoire 2", "Histoire 3", "Histoire 4", "Histoire 5"]
+	story_names = ["Name1", "Name2", "Name3", "Name4", "Name5"]
 
 	while True:
 		width, height = screen.get_size()
