@@ -137,7 +137,7 @@ def show_story_selection(screen):
 			color = tuple(min(255, channel + 25) for channel in story_colors[index]) if hovered else story_colors[index]
 			pygame.draw.rect(screen, color, rectangle, border_radius=8)
 			_text(screen, story_names[index], _font(17, bold=True), (255, 252, 242), rectangle.center, center=True)
-			_text(screen, "Lily", _font(15), (255, 252, 242), (rectangle.centerx, rectangle.bottom - 25), center=True)
+			_text(screen, "Race", _font(15), (255, 252, 242), (rectangle.centerx, rectangle.bottom - 25), center=True)
 
 		pygame.display.flip()
 		clock.tick(60)
