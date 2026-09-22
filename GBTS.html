@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Garden By The Shore, un conte interactif entre mer, esprits et souvenirs.">
+	<title>Garden By The Shore</title>
+	<style>
+		:root {
+			--paper: #f4ead9;
+			--paper-light: #fbf6ec;
+			--ink: #303a31;
+			--muted: #726e5b;
+			--line: #d8c9ae;
+			--green: #718968;
+			--green-dark: #52684e;
+			--coral: #b6685b;
+			--gold: #c6a04d;
+			--shadow: 0 20px 55px rgba(72, 57, 34, 0.12);
+		}
+
+		* { box-sizing: border-box; }
+
+		html { scroll-behavior: smooth; }
+
+		body {
+			margin: 0;
+			background: var(--paper);
+			color: var(--ink);
+			font-family: Georgia, "Times New Roman", serif;
+			line-height: 1.6;
+		}
+
+		body::before {
+			content: "";
+			position: fixed;
+			inset: 0;
+			pointer-events: none;
+			opacity: .22;
+			background-image: radial-gradient(#a99068 0.6px, transparent 0.6px);
+			background-size: 16px 16px;
+			mask-image: linear-gradient(to bottom, black, transparent 75%);
+		}
+
+		.shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+		.topbar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 28px 0;
+			border-bottom: 1px solid var(--line);
+			font-family: Arial, sans-serif;
+			font-size: .72rem;
+			letter-spacing: .16em;
+			text-transform: uppercase;
+		}
+
+		.brand { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+		.brand-mark { width: 12px; height: 12px; border: 2px solid var(--coral); border-radius: 50%; }
+		.topbar a { color: var(--ink); text-decoration: none; }
+
+		.intro {
+			display: grid;
+			grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+			gap: 70px;
+			align-items: end;
+			padding: 90px 0 100px;
+		}
+
+		.eyebrow {
+			margin: 0 0 20px;
+			color: var(--coral);
+			font-family: Arial, sans-serif;
+			font-size: .72rem;
+			font-weight: 700;
+			letter-spacing: .2em;
+			text-transform: uppercase;
+		}
+
+		h1 {
+			max-width: 720px;
+			margin: 0;
+			font-size: clamp(3.4rem, 8vw, 7.8rem);
+			font-weight: 400;
+			letter-spacing: -.045em;
+			line-height: .9;
+		}
+
+		.lead {
+			max-width: 390px;
+			margin: 0 0 5px;
+			color: var(--muted);
+			font-size: 1.12rem;
+		}
+
+		.intro-rule { display: block; width: 78px; height: 2px; margin-top: 28px; background: var(--gold); }
+
+		.game-section {
+			position: relative;
+			overflow: hidden;
+			padding: 34px;
+			border: 1px solid var(--line);
+			border-radius: 5px;
+			background: var(--paper-light);
+			box-shadow: var(--shadow);
+		}
+
+		.game-section::after {
+			content: "";
+			position: absolute;
+			right: -100px;
+			bottom: -120px;
+			width: 330px;
+			height: 330px;
+			border: 1px solid rgba(113, 137, 104, .3);
+			border-radius: 50%;
+		}
+
+		.section-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; margin-bottom: 28px; }
+		.section-heading h2 { margin: 0; font-size: 1.65rem; font-weight: 400; }
+		.section-heading span { color: var(--muted); font-family: Arial, sans-serif; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+
+		.game-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); min-height: 520px; }
+
+		.story-list { padding-right: 25px; border-right: 1px solid var(--line); }
+		.story-list-title { margin: 0 0 14px; color: var(--muted); font-family: Arial, sans-serif; font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; }
+		.story-button {
+			display: flex;
+			width: 100%;
+			margin: 0 0 7px;
+			padding: 13px 12px;
+			border: 1px solid transparent;
+			border-radius: 3px;
+			background: transparent;
+			color: var(--ink);
+			cursor: pointer;
+			font: inherit;
+			text-align: left;
+			transition: background .2s ease, border-color .2s ease, transform .2s ease;
+		}
+		.story-button:hover { transform: translateX(4px); background: #f1e7d5; }
+		.story-button[aria-selected="true"] { border-color: var(--line); background: #eee1ca; font-weight: 700; }
+		.story-number { width: 28px; color: var(--coral); font-family: Arial, sans-serif; font-size: .72rem; }
+
+		.stage { position: relative; padding-left: 38px; display: grid; grid-template-columns: minmax(0, 1fr) 185px; gap: 30px; align-items: center; }
+		.stage-copy { position: relative; z-index: 1; }
+		.stage-label { margin: 0 0 12px; color: var(--green-dark); font-family: Arial, sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+		.stage h3 { max-width: 480px; margin: 0 0 20px; font-size: clamp(2rem, 4vw, 3.7rem); font-weight: 400; line-height: 1; }
+		.stage p { max-width: 520px; margin: 0 0 26px; color: var(--muted); }
+		.stage-meta { display: flex; gap: 18px; margin-bottom: 28px; color: var(--muted); font-family: Arial, sans-serif; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+		.primary-button { padding: 13px 20px; border: 0; border-radius: 2px; background: var(--green); color: white; cursor: pointer; font-family: Arial, sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; transition: background .2s ease, transform .2s ease; }
+		.primary-button:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+		.character-frame { position: relative; align-self: stretch; min-height: 310px; border-left: 1px solid var(--line); background: #e8dcc4; overflow: hidden; }
+		.character-frame::before, .character-frame::after { content: ""; position: absolute; border: 1px solid rgba(113, 137, 104, .45); border-radius: 50%; }
+		.character-frame::before { width: 230px; height: 230px; top: 35px; left: -28px; }
+		.character-frame::after { width: 180px; height: 180px; top: 60px; left: -3px; }
+		.character-frame img { position: absolute; z-index: 1; bottom: 0; left: 50%; width: 88%; height: 92%; object-fit: contain; object-position: bottom center; transform: translateX(-50%); mix-blend-mode: multiply; }
+
+		.afterword { display: grid; grid-template-columns: .85fr 1.15fr; gap: 80px; padding: 105px 0 120px; border-bottom: 1px solid var(--line); }
+		.afterword h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 400; line-height: 1; }
+		.afterword-copy { color: var(--muted); font-size: 1.08rem; }
+		.afterword-copy p { margin: 0 0 18px; }
+		.quote { padding-left: 20px; border-left: 2px solid var(--gold); color: var(--ink); font-style: italic; }
+		footer { display: flex; justify-content: space-between; padding: 25px 0 35px; color: var(--muted); font-family: Arial, sans-serif; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+
+		@media (max-width: 760px) {
+			.shell { width: min(100% - 28px, 580px); }
+			.topbar { padding: 20px 0; }
+			.topbar a { display: none; }
+			.intro { display: block; padding: 65px 0 60px; }
+			.lead { margin-top: 35px; }
+			.game-section { padding: 20px; }
+			.game-layout { display: block; }
+			.story-list { padding: 0 0 20px; border-right: 0; border-bottom: 1px solid var(--line); }
+			.story-list-title { margin-top: 0; }
+			.story-button { display: inline-flex; width: calc(50% - 5px); margin-right: 4px; }
+			.stage { display: block; padding: 35px 0 0; }
+			.character-frame { display: none; }
+			.afterword { display: block; padding: 75px 0; }
+			.afterword-copy { margin-top: 30px; }
+			footer { display: block; line-height: 2; }
+		}
+	</style>
+</head>
+<body>
+	<header class="shell topbar">
+		<div class="brand"><span class="brand-mark"></span> GBTS / conte interactif</div>
+		<a href="#jeu">Entrer dans le jeu <span aria-hidden="true">&#8594;</span></a>
+	</header>
+
+	<main>
+		<section class="shell intro" aria-labelledby="page-title">
+			<div>
+				<p class="eyebrow">Une histoire de Lily Himo</p>
+				<h1 id="page-title">Garden<br>By The Shore</h1>
+				<span class="intro-rule" aria-hidden="true"></span>
+			</div>
+			<p class="lead">Un conte calme et étrange, posé entre le ressac, les esprits et les souvenirs d'une enfant qui cherche sa place.</p>
+		</section>
+
+		<section class="shell game-section" id="jeu" aria-labelledby="game-title">
+			<div class="section-heading">
+				<h2 id="game-title">Choisir une histoire</h2>
+				<span>Chapitre 01 / 05</span>
+			</div>
+			<div class="game-layout">
+				<nav class="story-list" aria-label="Histoires disponibles">
+					<p class="story-list-title">Les fragments</p>
+					<button class="story-button" type="button" aria-selected="true" data-story="0"><span class="story-number">01</span>Les sorcières</button>
+					<button class="story-button" type="button" aria-selected="false" data-story="1"><span class="story-number">02</span>La marée</button>
+					<button class="story-button" type="button" aria-selected="false" data-story="2"><span class="story-number">03</span>La forêt</button>
+					<button class="story-button" type="button" aria-selected="false" data-story="3"><span class="story-number">04</span>Le manoir</button>
+					<button class="story-button" type="button" aria-selected="false" data-story="4"><span class="story-number">05</span>Le rivage</button>
+				</nav>
+
+				<div class="stage" aria-live="polite">
+					<div class="stage-copy">
+						<p class="stage-label" id="stage-label">Chapitre 01 / fragment jouable</p>
+						<h3 id="stage-title">Witches</h3>
+						<p id="stage-description">Une porte ornée d'un oeil attend au fond d'une forêt oubliée. Un jeune maître suit une voix qui pleure, sans savoir ce qui l'attend de l'autre côté.</p>
+						<div class="stage-meta"><span id="stage-time">~ 08 min</span><span id="stage-mood">mystère doux</span></div>
+						<button class="primary-button" id="play-button" type="button">Commencer le fragment <span aria-hidden="true">&#8594;</span></button>
+					</div>
+					<div class="character-frame" aria-hidden="true">
+						<img src="Pictures/Art-Fight_Character_Lily-Himo_body.png" alt="">
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="shell afterword" aria-labelledby="about-title">
+			<h2 id="about-title">Une rive entre deux mondes.</h2>
+			<div class="afterword-copy">
+				<p>Lily Himo n'est pas tout à fait humaine. Après avoir été emportée par la mer, son histoire reprend sur une plage du Japon, dans un pays riche d'une énergie ancienne.</p>
+				<p class="quote">Chaque fragment révèle une autre façon de regarder le monde : par le rêve, la peur ou la mémoire.</p>
+				<p>Explorez les cinq chemins et laissez le jardin raconter ce qu'il garde sous ses feuilles.</p>
+			</div>
+		</section>
+	</main>
+
+	<footer class="shell">
+		<span>Garden By The Shore</span>
+		<span>Un projet de conte interactif</span>
+	</footer>
+
+	<script>
+		const stories = [
+			{ title: "Witches", description: "Une porte ornée d'un oeil attend au fond d'une forêt oubliée. Un jeune maître suit une voix qui pleure, sans savoir ce qui l'attend de l'autre côté.", mood: "mystère doux", time: "~ 08 min" },
+			{ title: "La marée", description: "Le rivage se retire lentement et laisse apparaître des traces dans le sable. Lily écoute le mouvement de l'eau comme on écoute un souvenir.", mood: "mélancolie", time: "~ 06 min" },
+			{ title: "La forêt", description: "Entre les branches, les fleurs semblent pousser au rythme d'une respiration. Quelqu'un connaît le chemin, mais refuse encore de parler.", mood: "onirique", time: "~ 07 min" },
+			{ title: "Le manoir", description: "Derrière les murs blancs, un conseil se réunit tandis qu'un enfant s'échappe vers les bois. Les histoires commencent souvent par une désobéissance.", mood: "curiosité", time: "~ 09 min" },
+			{ title: "Le rivage", description: "La mer garde ce qu'elle prend. Sur cette rive nouvelle, une silhouette ouvre les yeux et découvre une seconde naissance.", mood: "renaissance", time: "~ 05 min" }
+		];
+
+		const buttons = document.querySelectorAll('.story-button');
+		const title = document.querySelector('#stage-title');
+		const description = document.querySelector('#stage-description');
+		const mood = document.querySelector('#stage-mood');
+		const time = document.querySelector('#stage-time');
+		const label = document.querySelector('#stage-label');
+		const playButton = document.querySelector('#play-button');
+
+		buttons.forEach((button, index) => {
+			button.addEventListener('click', () => {
+				buttons.forEach((item) => item.setAttribute('aria-selected', 'false'));
+				button.setAttribute('aria-selected', 'true');
+				const story = stories[index];
+				title.textContent = story.title;
+				description.textContent = story.description;
+				mood.textContent = story.mood;
+				time.textContent = story.time;
+				label.textContent = `Chapitre ${String(index + 1).padStart(2, '0')} / fragment jouable`;
+				playButton.textContent = `Commencer le fragment ${String.fromCodePoint(8594)}`;
+			});
+		});
+
+		playButton.addEventListener('click', () => {
+			playButton.textContent = 'Fragment sélectionné';
+			playButton.setAttribute('aria-label', 'Fragment sélectionné');
+		});
+	</script>
+</body>
+</html>
