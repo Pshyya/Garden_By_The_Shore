@@ -209,18 +209,18 @@
 				<nav class="story-list" aria-label="Histoires disponibles">
 					<p class="story-list-title">Manor</p>
 					<button class="story-button" type="button" aria-selected="true" data-story="0"><span class="story-number">01</span>Prologue</button>
-					<button class="story-button" type="button" aria-selected="false" data-story="1"><span class="story-number">02</span>Spirited Away</button>
+					<button class="story-button" type="button" aria-selected="false" data-story="1"><span class="story-number">02</span>Myth</button>
 					<button class="story-button" type="button" aria-selected="false" data-story="2"><span class="story-number">03</span>Worlds</button>
-					<button class="story-button" type="button" aria-selected="false" data-story="3"><span class="story-number">04</span>Manor</button>
-					<button class="story-button" type="button" aria-selected="false" data-story="4"><span class="story-number">05</span>Director</button>
+					<button class="story-button" type="button" aria-selected="false" data-story="3"><span class="story-number">04</span>First Batch</button>
+					<button class="story-button" type="button" aria-selected="false" data-story="4"><span class="story-number">05</span>Nowadays</button>
 				</nav>
 
 				<div class="stage" aria-live="polite">
 					<div class="stage-copy">
-						<p class="stage-label" id="stage-label">Chapitre 01 / Witches</p>
-						<h3 id="stage-title">Name of the Witch</h3>
-						<p id="stage-description">Beautiful silver hair cut into a bob like hairstyle. The young girl, whose eyes shone brightly under the sky, was of a beautiful amber color.</p>
-						<div class="stage-meta"><span id="stage-time">~ HOW MANY MINUTES </span><span id="stage-mood">Green Flag</span></div>
+						<p class="stage-label" id="stage-label">Spirits Dwellings</p>
+						<h3 id="stage-title">Be careful ♥</h3>
+						<p id="stage-description">Thou aren't children from the world you know. I will welcome thou to my domain, for ever and ever ♥.</p>
+						<div class="stage-meta"><span id="stage-time">~ 00 min </span><span id="stage-mood">Grey Flag</span></div>
 						<button class="primary-button" id="play-button" type="button">Start the memory <span aria-hidden="true">&#8594;</span></button>
 					</div>
 					<div class="character-frame" aria-hidden="true">
@@ -247,11 +247,11 @@
 
 	<script>
 		const stories = [
-			{ title: "Witches", description: "Une porte ornée d'un oeil attend au fond d'une forêt oubliée. Un jeune maître suit une voix qui pleure, sans savoir ce qui l'attend de l'autre côté.", mood: "mystère doux", time: "~ 08 min" },
-			{ title: "La marée", description: "Le rivage se retire lentement et laisse apparaître des traces dans le sable. Lily écoute le mouvement de l'eau comme on écoute un souvenir.", mood: "mélancolie", time: "~ 06 min" },
-			{ title: "La forêt", description: "Entre les branches, les fleurs semblent pousser au rythme d'une respiration. Quelqu'un connaît le chemin, mais refuse encore de parler.", mood: "onirique", time: "~ 07 min" },
-			{ title: "Le manoir", description: "Derrière les murs blancs, un conseil se réunit tandis qu'un enfant s'échappe vers les bois. Les histoires commencent souvent par une désobéissance.", mood: "curiosité", time: "~ 09 min" },
-			{ title: "Le rivage", description: "La mer garde ce qu'elle prend. Sur cette rive nouvelle, une silhouette ouvre les yeux et découvre une seconde naissance.", mood: "renaissance", time: "~ 05 min" }
+			{ title: "Backstory", description: "A monstruosity, a metamorph, something along the lines of a fox. She dwells in a haunted manor. Master of this place.", mood: "Lonely", time: "~ 00 min" },
+			{ title: "Young Master", description: "Somewhere in the wood, a young master wanders toward a weeping willow.", mood: "Empathy", time: "~ 00 min" },
+			{ title: "Kidnapping", description: "A hands reaching out for those in cry. A land for those in need. The director will come for you...", mood: "Stalking", time: "~ 00 min" },
+			{ title: "My Kids", description: "Leaving her by herself, free from this place called home, they will believe a comeback one day.", mood: "Oppressive", time: "~ 00 min" },
+			{ title: "Currently", description: "Children laughing, a broom, a juice, jewels, activity. The perfect home for everyone...", mood: "Desperation", time: "~ 00 min" }
 		];
 
 		const buttons = document.querySelectorAll('.story-button');
@@ -271,14 +271,14 @@
 				description.textContent = story.description;
 				mood.textContent = story.mood;
 				time.textContent = story.time;
-				label.textContent = `Chapitre ${String(index + 1).padStart(2, '0')} / fragment jouable`;
-				playButton.textContent = `Commencer le fragment ${String.fromCodePoint(8594)}`;
+				label.textContent = `Chapter ${String(index + 1).padStart(2, '0')} / non-playable fragment`;
+				playButton.textContent = `Start the journey ${String.fromCodePoint(8594)}`;
 			});
 		});
 
 		playButton.addEventListener('click', () => {
-			playButton.textContent = 'Fragment sélectionné';
-			playButton.setAttribute('aria-label', 'Fragment sélectionné');
+			playButton.textContent = 'Journey selected';
+			playButton.setAttribute('aria-label', 'Journey selected');
 		});
 	</script>
 </body>
